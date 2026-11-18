@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Translate text into natural English and listen to its pronunciation."
+    />
+    <meta name="theme-color" content="#fff9ef" />
+    <title>Lingua — your little language diary</title>
+    <link rel="preconnect" href="https://api.mymemory.translated.net" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="doodle-bow" viewBox="0 0 100 70">
+        <path d="M47 34C32 18 12 10 8 19 2 34 22 47 45 38 31 51 24 65 34 66c11 1 17-11 18-25 4 15 13 27 23 23 10-5-4-20-17-27 21 9 39 5 38-7-2-12-24-9-43 4" />
+        <path d="M47 34c4-5 10-6 15-2 4 5 1 11-5 14-5 2-11-3-10-12Z" />
+      </symbol>
+      <symbol id="doodle-flower" viewBox="0 0 90 90">
+        <path d="M44 28c-10-21 7-29 13-21 4 5 1 12-4 19 18-15 31-2 22 8-4 5-12 5-20 1 21 9 15 26 3 23-6-2-10-9-10-17-1 24-19 25-22 13-2-7 3-13 12-18-23 10-31-5-21-12 5-4 12-2 19 4-17-18-4-31 6-21 4 5 4 13 2 21Z" />
+        <circle cx="45" cy="43" r="13" />
+        <path d="M41 43h.1m8 0h.1m-8 5c2 3 6 3 8 0" />
+        <path d="M44 57c-3 15-2 20-1 25m-1-12c-9-7-14-2-13 3 5-1 9-1 13-3m3 3c7-8 13-5 12 1-4-1-8-1-12-1" />
+      </symbol>
+      <symbol id="doodle-butterfly" viewBox="0 0 90 80">
+        <path d="M43 40C32 8 7 11 13 29c3 9 15 13 29 13C20 37 15 62 30 63c9 0 15-10 17-20m2-3C60 8 84 11 78 29c-3 9-15 13-29 13 22-5 27 20 12 21-9 0-15-10-17-20m0-4v24m0-46c-7-9-13-4-10 2m10-2c7-9 13-4 10 2" />
+      </symbol>
+      <symbol id="doodle-cherries" viewBox="0 0 90 90">
+        <path d="M42 43C37 27 33 16 28 10m18 34c6-15 14-23 23-27" />
+        <path d="M28 10c-1-8 7-9 10-3-4 0-6 2-7 5m38-5c7-5 12 1 8 7-2-3-5-4-8-4" />
+        <circle cx="34" cy="60" r="19" />
+        <circle cx="64" cy="58" r="19" />
+        <path d="M27 58h.1m13 0h.1m-11 7c2 3 6 3 8 0m21-9h.1m13 0h.1m-11 7c2 3 6 3 8 0" />
+        <path d="M22 51c4-5 10-7 17-6m17-2c7 0 13 3 17 8" />
+      </symbol>
+      <symbol id="doodle-cloud" viewBox="0 0 120 70">
+        <path d="M23 55c-12 0-18-7-16-16 1-8 9-12 18-11 1-15 14-24 28-19 8 3 13 10 14 18 13-9 29-1 29 12 13-2 20 4 19 12-1 7-7 11-17 11H24" />
+        <path d="M43 40h.1m18 0h.1m-16 8c4 4 9 4 13 0" />
+      </symbol>
+      <symbol id="doodle-sparkle" viewBox="0 0 50 50">
+        <path d="M25 3c1 13 5 20 22 22-17 2-21 9-22 22-1-13-5-20-22-22C20 23 24 16 25 3Z" />
+      </symbol>
+      <symbol id="doodle-heart" viewBox="0 0 60 55">
+        <path d="M30 48 9 28C-2 16 13 3 24 13l6 7 6-7c11-10 26 3 15 15L30 48Z" />
+      </symbol>
+      <symbol id="doodle-strawberry" viewBox="0 0 70 80">
+        <path d="M14 24c-1 24 9 46 21 49 12-3 22-25 21-49-12-6-30-6-42 0Z" />
+        <path d="M35 23c-8-13-20-10-22-4 8-1 13 2 17 7m5-3c7-14 19-11 22-5-8-1-13 2-18 7" />
+        <path d="M24 33h.1m12 4h.1m11-6h.1m-17 13h.1m12 3h.1m-7 12h.1" />
+      </symbol>
+    </svg>
+
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Lingua home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 70 80"><use href="#doodle-strawberry" /></svg>
+        </span>
+        <span>Lingua<span class="brand-period">.</span><small>little language diary</small></span>
+      </a>
+      <span class="topbar-note">
+        <svg class="topbar-bow" aria-hidden="true"><use href="#doodle-bow" /></svg>
+        Auto-detect <span class="topbar-arrow" aria-hidden="true">→</span> English
+      </span>
+    </header>
+
+    <main class="page-shell">
+      <svg class="page-doodle doodle-cloud cloud-left float-slow" aria-hidden="true"><use href="#doodle-cloud" /></svg>
+      <svg class="page-doodle doodle-butterfly butterfly-right float-gentle" aria-hidden="true"><use href="#doodle-butterfly" /></svg>
+      <svg class="page-doodle doodle-flower flower-left bob" aria-hidden="true"><use href="#doodle-flower" /></svg>
+      <svg class="page-doodle doodle-cherries cherries-right" aria-hidden="true"><use href="#doodle-cherries" /></svg>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span class="eyebrow-sparkle" aria-hidden="true">✳</span> YOUR PERSONAL TRANSLATION COMPANION <span class="eyebrow-sparkle" aria-hidden="true">✳</span></p>
+        <div class="title-wrap">
+          <svg class="title-doodle title-bow" aria-hidden="true"><use href="#doodle-bow" /></svg>
+          <svg class="title-doodle title-flower" aria-hidden="true"><use href="#doodle-flower" /></svg>
+          <h1 id="page-title">Say it<br /><span>naturally.</span></h1>
+          <svg class="title-doodle title-sparkle" aria-hidden="true"><use href="#doodle-sparkle" /></svg>
+          <svg class="title-doodle title-heart" aria-hidden="true"><use href="#doodle-heart" /></svg>
+        </div>
+        <p class="intro-copy">
+          Translate a little, learn a little, <span>love every word.</span>
+        </p>
+        <p class="hand-note">a tiny note from your language-loving friend <span aria-hidden="true">♡</span></p>
+      </section>
+
+      <nav class="section-nav" aria-label="Learning tools">
+        <button class="nav-tab is-active" type="button" data-view="translate-view" aria-controls="translate-view" aria-current="page"><span>✿</span> Translate</button>
+        <button class="nav-tab" type="button" data-view="vocabulary-view" aria-controls="vocabulary-view"><span>♡</span> Vocabulary</button>
+        <button class="nav-tab" type="button" data-view="history-view" aria-controls="history-view"><span>▤</span> History</button>
+        <button class="nav-tab" type="button" data-view="grammar-view" aria-controls="grammar-view"><span>✎</span> Grammar</button>
+        <button class="nav-tab" type="button" data-view="challenge-view" aria-controls="challenge-view"><span>☆</span> Daily challenge</button>
+        <button class="nav-tab" type="button" data-view="cats-home-view" aria-controls="cats-home-view"><span>🐱</span> Cat’s cozy home</button>
+        <button class="nav-tab" type="button" data-view="photo-view" aria-controls="photo-view"><span>▧</span> Photo text</button>
+      </nav>
+
+      <section class="app-view is-active" id="translate-view" aria-label="Translate">
+      <section class="translator" aria-label="Any language to English translator">
+        <span class="washi-tape tape-top" aria-hidden="true"></span>
+        <span class="washi-tape tape-bottom" aria-hidden="true"></span>
+        <svg class="card-doodle card-star star-top" aria-hidden="true"><use href="#doodle-sparkle" /></svg>
+        <svg class="card-doodle card-heart heart-bottom" aria-hidden="true"><use href="#doodle-heart" /></svg>
+        <div class="language-bar">
+          <div class="language">
+            <span class="language-icon source-icon" aria-hidden="true">
+              <svg viewBox="0 0 50 50"><use href="#doodle-sparkle" /></svg>
+            </span>
+            <span>Any language</span>
+            <span class="language-region">Auto-detect · always free to try</span>
+          </div>
+          <span class="language-arrow" aria-label="Translate to">
+            <svg viewBox="0 0 68 24"><path d="M2 12c18-7 35-7 58-1m-12-9 13 9-14 9" /></svg>
+          </span>
+          <div class="language">
+            <span class="language-icon target-icon" aria-hidden="true">EN</span>
+            <span>English</span>
+            <span class="language-region">with a little pronunciation magic</span>
+          </div>
+        </div>
+
+        <div class="translation-grid">
+          <div class="text-panel input-panel">
+            <span class="washi-tape panel-tape input-tape" aria-hidden="true"></span>
+            <svg class="panel-doodle input-doodle" aria-hidden="true"><use href="#doodle-strawberry" /></svg>
+            <label class="panel-label" for="source-text"><span class="label-sticker">01</span> Your words</label>
+            <textarea
+              id="source-text"
+              maxlength="5000"
+              placeholder="Write something lovely here..."
+              aria-describedby="character-count"
+            ></textarea>
+            <div class="voice-tools">
+              <label for="voice-language">Speak in</label>
+              <select id="voice-language" class="pastel-select voice-language">
+                <option value="zh-CN">Chinese</option>
+                <option value="ja-JP">Japanese</option>
+                <option value="ko-KR">Korean</option>
+                <option value="fr-FR">French</option>
+                <option value="es-ES">Spanish</option>
+                <option value="en-US">English</option>
+              </select>
+              <button id="voice-start-button" class="small-pastel-button" type="button">🎙 Start</button>
+              <button id="voice-stop-button" class="small-pastel-button" type="button" disabled>Stop</button>
+            </div>
+            <p id="voice-status" class="voice-status" role="status">Review and edit spoken words before translating. Lingua does not record or store audio; your browser may process speech using its own service.</p>
+            <div class="panel-footer">
+              <span id="character-count" class="character-count" aria-live="polite">
+                0 / 500 bytes
+              </span>
+              <button id="clear-button" class="text-button" type="button" disabled aria-label="Clear text">
+                <svg viewBox="0 0 42 36" aria-hidden="true"><path d="M10 24c-5-8 2-18 11-17 8 0 14 6 13 13-1 8-10 12-17 8m-8-4 1 8 7-4" /><path d="M17 16h.1m10 0h.1m-9 5c2 3 5 3 7 0" /></svg>
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <div class="text-panel output-panel" aria-live="polite">
+            <span class="washi-tape panel-tape output-tape" aria-hidden="true"></span>
+            <svg class="panel-doodle output-doodle" aria-hidden="true"><use href="#doodle-butterfly" /></svg>
+            <div class="translation-animation" aria-hidden="true">
+              <svg class="loading-flower loading-flower-one"><use href="#doodle-flower" /></svg>
+              <svg class="loading-heart"><use href="#doodle-heart" /></svg>
+              <svg class="loading-sparkle loading-sparkle-one"><use href="#doodle-sparkle" /></svg>
+              <svg class="loading-sparkle loading-sparkle-two"><use href="#doodle-sparkle" /></svg>
+              <svg class="loading-envelope" viewBox="0 0 100 76">
+                <path class="envelope-paper" d="M13 18h74v48H13z" />
+                <path class="envelope-flap" d="m14 20 36 29 36-29" />
+                <path class="envelope-letter" d="M27 10h46v44H27z" />
+                <path class="letter-line" d="M36 23h26m-26 9h20m-20 9h23" />
+                <path class="envelope-fold" d="m14 64 25-22m47 22L61 42" />
+                <path class="envelope-seal" d="m50 44-5-5c-4-4 2-9 5-4 4-5 9 0 5 4z" />
+              </svg>
+              <span class="loading-note">A little magic is happening<span class="loading-ellipsis" aria-hidden="true"></span></span>
+              <span class="loading-progress"><span></span></span>
+            </div>
+            <div class="success-burst" aria-hidden="true">
+              <svg class="burst-sparkle burst-one"><use href="#doodle-sparkle" /></svg>
+              <svg class="burst-sparkle burst-two"><use href="#doodle-sparkle" /></svg>
+              <svg class="burst-heart"><use href="#doodle-heart" /></svg>
+              <span class="success-sticker">Ta-da! ♡</span>
+            </div>
+            <div class="error-sticker" aria-hidden="true">
+              <svg viewBox="0 0 60 60">
+                <path d="M13 28c0-12 9-21 22-21 12 0 20 9 20 20v17H13z" />
+                <path d="m13 43-8 9 18-3m8-18h.1m14 0h.1m-15 9c4-4 9-4 13 0" />
+                <path d="M28 13c-3-7 7-11 10-5m6 8 7-7" />
+              </svg>
+              <span>Oops, let’s try again</span>
+            </div>
+            <div class="output-heading">
+              <span class="panel-label"><span class="label-sticker label-pink">02</span> Little translation</span>
+              <span id="result-badge" class="result-badge">Ready to translate</span>
+            </div>
+            <p id="translated-text" class="translated-text placeholder">
+              Your translation will appear here
+            </p>
+            <div class="translation-learning-actions">
+              <button id="save-translation-button" class="soft-action" type="button" disabled>
+                <span aria-hidden="true">♡</span> Save to Vocabulary
+              </button>
+              <button id="explain-grammar-button" class="soft-action grammar-action" type="button" disabled>
+                <span aria-hidden="true">✎</span> Explain Grammar
+              </button>
+              <button id="save-selection-button" class="soft-action selection-action" type="button" disabled>
+                Save selected words
+              </button>
+            </div>
+            <div class="panel-footer output-footer">
+              <span id="voice-label" class="voice-label">Natural English speech</span>
+              <div class="result-actions">
+                <button
+                  id="copy-button"
+                  class="icon-button copy-button"
+                  type="button"
+                  aria-label="Copy English translation"
+                  title="Copy translation"
+                  disabled
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="8" y="8" width="12" height="12" rx="2"></rect>
+                    <path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path>
+                  </svg>
+                  <span class="button-tooltip">copy</span>
+                </button>
+                <button
+                  id="speak-button"
+                  class="icon-button speak-button"
+                  type="button"
+                  aria-label="Play English pronunciation"
+                  title="Play English pronunciation"
+                  disabled
+                >
+                  <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m9 5 11 7-11 7z"></path>
+                  </svg>
+                  <svg class="stop-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="7" y="7" width="10" height="10" rx="1.5"></rect>
+                  </svg>
+                  <span class="button-tooltip">listen</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="translate-row">
+          <svg class="row-doodle row-heart" aria-hidden="true"><use href="#doodle-heart" /></svg>
+          <p class="privacy-note"><span>made with a little language magic</span><br />Your words are sent securely for translation.</p>
+          <button id="translate-button" class="translate-button" type="button">
+            <span class="button-label">Translate</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+            <span class="translate-sparkle" aria-hidden="true">✦</span>
+          </button>
+        </div>
+        <p id="error-message" class="error-message" role="alert" hidden></p>
+      </section>
+      </section>
+
+      <section class="app-view" id="vocabulary-view" aria-labelledby="vocabulary-title" hidden>
+        <div class="feature-paper notebook-paper">
+          <span class="washi-tape feature-tape" aria-hidden="true"></span>
+          <div class="feature-heading">
+            <span class="feature-sticker">♡</span>
+            <div>
+              <p class="feature-kicker">YOUR LITTLE WORD COLLECTION</p>
+              <h2 id="vocabulary-title">Vocabulary Notebook</h2>
+              <p class="feature-intro">Keep the words you love and add your own little notes.</p>
+            </div>
+            <svg class="feature-doodle"><use href="#doodle-flower" /></svg>
+          </div>
+          <div class="notebook-tools">
+            <label class="search-wrap"><span aria-hidden="true">⌕</span><input id="vocabulary-search" type="search" placeholder="Find a saved word..." aria-label="Search vocabulary" /></label>
+            <span id="vocabulary-count" class="count-stamp">0 words saved</span>
+          </div>
+          <div id="vocabulary-list" class="entry-grid" aria-live="polite"></div>
+          <p id="vocabulary-empty" class="empty-note">Your notebook is waiting for its first lovely word ♡</p>
+        </div>
+      </section>
+
+      <section class="app-view" id="history-view" aria-labelledby="history-title" hidden>
+        <div class="feature-paper diary-paper">
+          <span class="washi-tape feature-tape tape-blue" aria-hidden="true"></span>
+          <div class="feature-heading">
+            <span class="feature-sticker sticker-blue">▤</span>
+            <div>
+              <p class="feature-kicker">LITTLE THINGS YOU’VE LEARNED</p>
+              <h2 id="history-title">My Translation Diary</h2>
+              <p class="feature-intro">Your recent translations, tucked safely in this browser.</p>
+            </div>
+            <svg class="feature-doodle blue-doodle"><use href="#doodle-cloud" /></svg>
+          </div>
+          <div class="notebook-tools history-tools">
+            <label class="search-wrap"><span aria-hidden="true">⌕</span><input id="history-search" type="search" placeholder="Search your diary..." aria-label="Search translation history" /></label>
+            <label class="privacy-toggle"><input id="history-enabled" type="checkbox" checked /> Save history</label>
+            <button id="clear-history-button" class="small-pastel-button" type="button">Clear history</button>
+          </div>
+          <div id="history-list" class="entry-list" aria-live="polite"></div>
+          <p id="history-empty" class="empty-note">Your diary is ready for a first entry ♡</p>
+        </div>
+      </section>
+
+      <section class="app-view" id="grammar-view" aria-labelledby="grammar-title" hidden>
+        <div class="feature-paper grammar-paper">
+          <span class="washi-tape feature-tape tape-lavender" aria-hidden="true"></span>
+          <div class="feature-heading">
+            <span class="feature-sticker sticker-lavender">✎</span>
+            <div>
+              <p class="feature-kicker">GENTLE, BEGINNER-FRIENDLY HELP</p>
+              <h2 id="grammar-title">Grammar Corner</h2>
+              <p class="feature-intro">A free grammar guide that checks familiar patterns right here in your browser.</p>
+            </div>
+            <svg class="feature-doodle lavender-doodle"><use href="#doodle-butterfly" /></svg>
+          </div>
+          <div class="grammar-toolbar">
+            <div class="grammar-tabs" role="tablist" aria-label="Grammar Corner tools">
+              <button id="grammar-tab-checker" class="grammar-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="grammar-checker-panel" data-grammar-panel="grammar-checker-panel">✏️ Checker</button>
+              <button id="grammar-tab-lessons" class="grammar-tab" type="button" role="tab" aria-selected="false" aria-controls="grammar-lessons-panel" data-grammar-panel="grammar-lessons-panel">📖 Lessons</button>
+              <button id="grammar-tab-practice" class="grammar-tab" type="button" role="tab" aria-selected="false" aria-controls="grammar-practice-panel" data-grammar-panel="grammar-practice-panel">🎯 Practice</button>
+            </div>
+            <label class="grammar-language-setting" for="grammar-language">Explanation language
+              <select id="grammar-language" class="pastel-select">
+                <option value="en">English</option>
+                <option value="zh-TW">繁體中文</option>
+              </select>
+            </label>
+          </div>
+          <div class="grammar-progress-strip" aria-label="Grammar progress">
+            <span class="grammar-progress-stamp">🌷 Lessons <b id="grammar-progress-lessons">0 / 12</b></span>
+            <span class="grammar-progress-stamp">⭐ Quiz accuracy <b id="grammar-progress-accuracy">—</b></span>
+            <span class="grammar-progress-stamp">☀️ Today <b id="grammar-progress-today">0 quizzes</b></span>
+          </div>
+          <div class="grammar-local-note" role="note">Free and offline: checking, lessons, quizzes, and progress stay in this browser. The checker only knows common patterns and may miss mistakes. It will tell you when it cannot check a sentence confidently.</div>
+          <section class="grammar-subpanel" id="grammar-checker-panel" role="tabpanel" aria-labelledby="grammar-tab-checker">
+            <div class="grammar-source">
+              <label class="panel-label" for="grammar-source-text">English sentence</label>
+              <textarea id="grammar-source-text" maxlength="500" placeholder="Type or paste a short English sentence..."></textarea>
+              <button id="grammar-explain-button" class="translate-button grammar-submit" type="button">
+                <span class="button-label">Check common grammar</span><span aria-hidden="true">✧</span>
+              </button>
+            </div>
+            <div id="grammar-status" class="feature-status" role="status">Enter an English sentence to check familiar grammar patterns.</div>
+            <div id="grammar-result" class="grammar-result" hidden></div>
+          </section>
+          <section class="grammar-subpanel" id="grammar-lessons-panel" role="tabpanel" aria-labelledby="grammar-tab-lessons" hidden>
+            <p class="grammar-panel-intro">Choose a study card. Read the lesson, try its quick question, then mark it complete to save your progress.</p>
+            <div id="grammar-lessons" class="grammar-lessons-grid"></div>
+          </section>
+          <section class="grammar-subpanel" id="grammar-practice-panel" role="tabpanel" aria-labelledby="grammar-tab-practice" hidden>
+            <div class="quiz-settings">
+              <label>Difficulty
+                <select id="grammar-quiz-level" class="pastel-select">
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </label>
+              <label>Questions
+                <select id="grammar-quiz-size" class="pastel-select">
+                  <option value="5">5 questions</option>
+                  <option value="10">10 questions</option>
+                </select>
+              </label>
+              <button id="grammar-quiz-start" class="small-pastel-button" type="button">Start a little quiz ✿</button>
+            </div>
+            <div id="grammar-quiz" class="grammar-quiz" aria-live="polite">
+              <p class="empty-note">Pick a difficulty and start when you’re ready ♡</p>
+            </div>
+          </section>
+          <section class="grammar-progress-panel" aria-labelledby="grammar-progress-title">
+            <div class="grammar-progress-heading">
+              <div>
+                <p class="feature-kicker">YOUR LITTLE LEARNING JOURNEY</p>
+                <h3 id="grammar-progress-title">My Grammar Progress</h3>
+              </div>
+              <span class="feature-sticker sticker-yellow" aria-hidden="true">★</span>
+            </div>
+            <div id="grammar-weak-topics" class="grammar-weak-topics"></div>
+            <h4>Review my previous mistakes</h4>
+            <div id="grammar-mistake-review" class="grammar-mistake-review"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="app-view" id="challenge-view" aria-labelledby="challenge-title" hidden>
+        <div class="feature-paper challenge-paper">
+          <span class="washi-tape feature-tape tape-yellow" aria-hidden="true"></span>
+          <div class="feature-heading">
+            <span class="feature-sticker sticker-yellow">☆</span>
+            <div>
+              <p class="feature-kicker">A TINY BIT OF ENGLISH, EVERY DAY</p>
+              <h2 id="challenge-title">Today’s Study Planner</h2>
+              <p class="feature-intro">One small question can make a lovely learning habit.</p>
+            </div>
+            <svg class="feature-doodle"><use href="#doodle-cherries" /></svg>
+          </div>
+          <div class="challenge-stats">
+            <span class="stamp-stat">🔥 <b id="streak-count">0</b> day streak</span>
+            <span class="stamp-stat">✿ <b id="challenge-count">0</b> completed</span>
+          </div>
+          <div id="daily-challenge" class="daily-card">
+            <span id="challenge-category" class="category-stamp">TODAY’S MINI CHALLENGE</span>
+            <p id="challenge-question" class="challenge-question"></p>
+            <div id="challenge-options" class="challenge-options"></div>
+            <p id="challenge-feedback" class="challenge-feedback" role="status" hidden></p>
+          </div>
+          <div class="challenge-review">
+            <h3>My little wins</h3>
+            <div id="challenge-history" class="challenge-history"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="app-view" id="cats-home-view" aria-labelledby="cats-home-title" hidden>
+        <div class="feature-paper cats-paper">
+          <span class="washi-tape feature-tape tape-pink" aria-hidden="true"></span>
+          <div class="feature-heading">
+            <span class="feature-sticker sticker-pink" aria-hidden="true">🐾</span>
+            <div>
+              <p class="feature-kicker">LEARN A LITTLE · DECORATE A LOT</p>
+              <h2 id="cats-home-title">Cat’s Cozy Home 🐱</h2>
+              <p class="feature-intro">Answer English questions, earn coins, and make a snug home for your kitty.</p>
+            </div>
+            <svg class="feature-doodle"><use href="#doodle-heart" /></svg>
+          </div>
+
+          <div class="cat-home-stats" aria-live="polite">
+            <span class="stamp-stat">🪙 <b id="cat-home-coins">0</b> cozy coins</span>
+            <span class="stamp-stat">✿ <b id="cat-home-learned">0 / 72</b> questions tried</span>
+            <span class="stamp-stat">🐾 <b id="cat-home-pets">0</b> pets</span>
+          </div>
+
+          <div class="cat-needs" aria-label="Kitty care">
+            <label class="cat-need">
+              <span>Full tummy <b id="cat-hunger-value">74%</b></span>
+              <span class="cat-need-track" role="progressbar" aria-label="Kitty's fullness" aria-valuemin="0" aria-valuemax="100" aria-valuenow="74">
+                <span id="cat-hunger-meter" class="cat-need-meter is-hunger" style="width: 74%"></span>
+              </span>
+            </label>
+            <label class="cat-need">
+              <span>Happiness <b id="cat-happiness-value">82%</b></span>
+              <span class="cat-need-track" role="progressbar" aria-label="Kitty's happiness" aria-valuemin="0" aria-valuemax="100" aria-valuenow="82">
+                <span id="cat-happiness-meter" class="cat-need-meter is-happiness" style="width: 82%"></span>
+              </span>
+            </label>
+            <span class="cat-safe-food-note">No needs fade while you’re away. All treats here are cat-safe ♡</span>
+          </div>
+
+          <div class="cats-game-layout">
+            <div class="cats-room-column">
+              <div id="cat-room" class="cat-room" aria-label="Pink isometric dollhouse. Drag your furniture to move it.">
+                <img id="cat-room-background" class="cat-room-background" src="assets/cats-cozy-home/sprites/room.png" alt="An ornate pink isometric dollhouse with patterned wallpaper, windows, and a tiled floor">
+                <div id="cat-room-items" class="cat-room-items"></div>
+                <button id="game-cat" class="game-cat cat-sitting" type="button" aria-label="Pet your kitten">
+                  <img id="game-cat-art" class="game-cat-art" src="assets/cats-cozy-home/sprites/cat-sit.png" alt="">
+                  <span id="cat-pet-hearts" class="cat-pet-hearts" aria-hidden="true"></span>
+                </button>
+              </div>
+
+              <div class="cat-interactions">
+                <p id="cat-home-message" class="cat-home-message" role="status">Your kitty is waiting for a cozy home. Tap the cat for a little purr ♡</p>
+                <div class="cat-interaction-buttons" aria-label="Cat actions">
+                  <button class="small-pastel-button" type="button" data-cat-action="sit">Sit</button>
+                  <button class="small-pastel-button" type="button" data-cat-action="walk">Walk</button>
+                  <button class="small-pastel-button" type="button" data-cat-action="sleep">Sleep</button>
+                  <button class="small-pastel-button" type="button" data-cat-action="play">Play</button>
+                  <button class="small-pastel-button" type="button" data-cat-action="eat">Feed</button>
+                </div>
+              </div>
+
+              <section class="cat-inventory-section" aria-labelledby="cat-inventory-title">
+                <div class="cat-section-heading">
+                  <div><p class="feature-kicker">READY TO PLACE</p><h3 id="cat-inventory-title">Your furniture basket</h3></div>
+                  <span class="feature-sticker sticker-blue" aria-hidden="true">✿</span>
+                </div>
+                <div id="cat-home-inventory" class="cat-home-inventory"></div>
+              </section>
+
+              <section class="cat-food-card" aria-labelledby="cat-food-title">
+                <div class="cat-section-heading">
+                  <div><p class="feature-kicker">TREATS FOR TINY PAWS</p><h3 id="cat-food-title">Kitty’s pantry</h3></div>
+                  <span class="feature-sticker sticker-pink" aria-hidden="true">♡</span>
+                </div>
+                <p class="cat-shop-note">Choose a snack to feed your cat. Hunger and happiness stay just as they are when you’re away.</p>
+                <div id="cat-food-inventory" class="cat-food-inventory"></div>
+              </section>
+            </div>
+
+            <aside class="cats-side-column">
+              <section class="cat-quiz-card" aria-labelledby="cat-quiz-title">
+                <div class="cat-section-heading">
+                  <div><p class="feature-kicker">A QUESTION FOR COINS</p><h3 id="cat-quiz-title">English snack time</h3></div>
+                  <span class="feature-sticker sticker-yellow" aria-hidden="true">★</span>
+                </div>
+                <div class="cat-quiz-settings">
+                  <label>Category
+                    <select id="cat-quiz-category" class="pastel-select">
+                      <option value="vocabulary">Vocabulary</option>
+                      <option value="grammar">Grammar</option>
+                      <option value="translation">Translation</option>
+                      <option value="reading">Reading</option>
+                    </select>
+                  </label>
+                  <label>Difficulty
+                    <select id="cat-quiz-difficulty" class="pastel-select">
+                      <option value="easy">Easy · 10 coins</option>
+                      <option value="medium">Medium · 20 coins</option>
+                      <option value="hard">Hard · 30 coins</option>
+                    </select>
+                  </label>
+                </div>
+                <p id="cat-quiz-category-label" class="category-stamp">VOCABULARY · EASY</p>
+                <p id="cat-quiz-question" class="cat-quiz-question"></p>
+                <div id="cat-quiz-options" class="cat-quiz-options"></div>
+                <p id="cat-quiz-feedback" class="cat-quiz-feedback" role="status" hidden></p>
+                <button id="cat-quiz-next" class="small-pastel-button" type="button">Another question ↗</button>
+              </section>
+
+              <section class="cat-shop-card" aria-labelledby="cat-shop-title">
+                <div class="cat-section-heading">
+                  <div><p class="feature-kicker">LITTLE TREASURES</p><h3 id="cat-shop-title">Furniture shop</h3></div>
+                  <span class="feature-sticker sticker-pink" aria-hidden="true">♡</span>
+                </div>
+                <div class="cat-shop-tabs" role="tablist" aria-label="Shop category">
+                  <button class="cat-shop-tab is-active" type="button" role="tab" aria-selected="true" data-cat-shop-tab="furniture">Furniture</button>
+                  <button class="cat-shop-tab" type="button" role="tab" aria-selected="false" data-cat-shop-tab="decor">Decor</button>
+                  <button class="cat-shop-tab" type="button" role="tab" aria-selected="false" data-cat-shop-tab="cat">Cat furniture</button>
+                  <button class="cat-shop-tab" type="button" role="tab" aria-selected="false" data-cat-shop-tab="food">Cat food</button>
+                </div>
+                <p id="cat-shop-note" class="cat-shop-note">Earn coins with English, then choose something cozy for your kitty’s room.</p>
+                <div id="cat-home-shop" class="cat-home-shop"></div>
+              </section>
+            </aside>
+          </div>
+          <p id="cat-home-save-status" class="cat-home-save-status" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="app-view" id="photo-view" aria-labelledby="photo-title" hidden>
+        <div class="feature-paper photo-paper">
+          <span class="washi-tape feature-tape tape-green" aria-hidden="true"></span>
+          <div class="feature-heading">
+            <span class="feature-sticker sticker-green">▧</span>
+            <div>
+              <p class="feature-kicker">A LITTLE PICTURE-TO-WORD MAGIC</p>
+              <h2 id="photo-title">Photo Text</h2>
+              <p class="feature-intro">Read text from a picture, then translate it with Lingua.</p>
+            </div>
+            <svg class="feature-doodle"><use href="#doodle-strawberry" /></svg>
+          </div>
+          <p class="privacy-note photo-privacy">Your image stays in this browser. OCR language data downloads from the internet the first time you use a language.</p>
+          <label class="upload-drop" for="photo-input">
+            <span class="upload-icon" aria-hidden="true">＋</span>
+            <span><b>Choose a picture</b><small>JPG, PNG, or WebP · up to 5 MB</small></span>
+            <input id="photo-input" type="file" accept="image/jpeg,image/png,image/webp" />
+          </label>
+          <p id="photo-status" class="feature-status" role="status">Choose an image to begin.</p>
+          <img id="photo-preview" class="photo-preview" alt="Selected image preview" hidden />
+          <label class="panel-label photo-language-label" for="photo-language">Text language in the picture</label>
+          <select id="photo-language" class="pastel-select">
+            <option value="eng">English</option>
+            <option value="chi_sim">Chinese (Simplified)</option>
+            <option value="chi_tra">Chinese (Traditional)</option>
+            <option value="jpn">Japanese</option>
+            <option value="kor">Korean</option>
+            <option value="fra">French</option>
+            <option value="spa">Spanish</option>
+          </select>
+          <button id="extract-photo-button" class="small-pastel-button" type="button" disabled>Read text from image</button>
+          <label class="panel-label extracted-label" for="photo-text">Review and edit the text</label>
+          <textarea id="photo-text" class="extracted-text" maxlength="5000" placeholder="Text found in your image will appear here..."></textarea>
+          <label class="panel-label photo-target-label" for="photo-target-language">Translate text into</label>
+          <select id="photo-target-language" class="pastel-select">
+            <option value="en">English</option>
+            <option value="zh-TW">Chinese (Traditional)</option>
+            <option value="zh-CN">Chinese (Simplified)</option>
+            <option value="ja">Japanese</option>
+            <option value="ko">Korean</option>
+            <option value="fr">French</option>
+            <option value="es">Spanish</option>
+          </select>
+          <button id="translate-photo-button" class="translate-button photo-translate-button" type="button" disabled><span class="button-label">Translate this text</span><span aria-hidden="true">→</span></button>
+          <p id="photo-translation-status" class="feature-status photo-translation-status" role="status" aria-live="polite"></p>
+          <progress id="photo-translation-progress" class="photo-translation-progress" max="1" value="0" aria-label="Photo translation progress" hidden></progress>
+          <section id="photo-translation-result" class="photo-translation-result" aria-label="Translation result" hidden>
+            <article class="photo-result-card photo-original-card">
+              <h3>Original text</h3>
+              <p id="photo-original-result"></p>
+            </article>
+            <article class="photo-result-card photo-translated-card">
+              <h3>Translated text</h3>
+              <p id="photo-translated-result"></p>
+            </article>
+          </section>
+        </div>
+      </section>
+
+      <p class="page-footnote"><svg aria-hidden="true"><use href="#doodle-flower" /></svg> Translations are for reference · Pronunciation is provided by your browser <span>♡</span></p>
+      <div class="bottom-stickers" aria-hidden="true">
+        <span class="sticker-caption">you’re doing lovely!</span>
+        <svg class="bottom-sticker sticker-flower"><use href="#doodle-flower" /></svg>
+        <svg class="bottom-sticker sticker-cherries"><use href="#doodle-cherries" /></svg>
+        <svg class="bottom-sticker sticker-butterfly"><use href="#doodle-butterfly" /></svg>
+        <svg class="bottom-sticker sticker-cloud"><use href="#doodle-cloud" /></svg>
+      </div>
+    </main>
+    <dialog id="vocabulary-dialog" class="vocabulary-dialog">
+      <form id="vocabulary-form" method="dialog">
+        <span class="washi-tape dialog-tape" aria-hidden="true"></span>
+        <button class="dialog-close" type="button" aria-label="Close">×</button>
+        <p class="feature-kicker">A NEW PAGE IN YOUR WORD BOOK</p>
+        <h2>Save a little word ♡</h2>
+        <label for="vocab-word">English word or phrase</label>
+        <input id="vocab-word" name="word" required maxlength="200" />
+        <label for="vocab-original">Original text</label>
+        <input id="vocab-original" name="original" maxlength="500" />
+        <label for="vocab-translation">English translation</label>
+        <input id="vocab-translation" name="translation" maxlength="500" />
+        <label for="vocab-notes">My notes</label>
+        <textarea id="vocab-notes" name="notes" maxlength="500" placeholder="A memory, example, or little note..."></textarea>
+        <button class="translate-button" type="submit">Save to notebook ♡</button>
+        <p id="vocab-form-error" class="dialog-error" role="alert" hidden></p>
+      </form>
+    </dialog>
+  </body>
+</html>
