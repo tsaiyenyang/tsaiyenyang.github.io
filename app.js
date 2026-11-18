@@ -175,7 +175,7 @@ async function translateText(text, signal, targetLanguage = "en") {
     return translateWithMyMemory(text, signal, targetLanguage);
   }
 
-  if (response.status === 404 || response.status === 501) {
+  if ([404, 405, 501].includes(response.status)) {
     return translateWithMyMemory(text, signal, targetLanguage);
   }
   if (!response.ok) {
